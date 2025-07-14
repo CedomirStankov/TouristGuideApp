@@ -7,62 +7,18 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Select from 'react-select';
-import { useParams } from 'react-router-dom';
 
 const defaultTheme = createTheme();
 
-export default function EditClanak() {
+export default function DodajClanak() {
     const [autorClanka, setAutorClanka] = useState('');
     const [naslovClanka, setNaslovClanka] = useState('');
     const [tekstClanka, setTekstClanka] = useState('');
     const [aktivnostiClanka, setAktivnostiClanka] = useState('');
-    const [nazivDestinacije, setNazivDestinacije] = useState('');
-    const [destinacijaId, setDestinacijaId] = useState('');
     const [options, setOptions] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
-    const { id } = useParams();
 
-    useEffect(() => {
-        fetch(`http://localhost:8081/api/clanak/${id}`,{
-            method:'GET',
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem("token"),
-            }
-        }).then(response=>{
-            if(!response.ok){
-                throw new Error('Network response was not ok')
-            }
-            return response.json();
-        }).then(data => {
-            setNaslovClanka(data.naslov);
-            setTekstClanka(data.tekst);
-            setAutorClanka(data.autor);
-            setDestinacijaId(data.destinacija_id);
-            return data.destinacija_id; // Vratite destinacija_id za dalju upotrebu
-          })
-          .then(destId => { // Ovde dobavljamo naziv destinacije nakon što je postavljen destinacijaId
-            fetch(`http://localhost:8081/api/destinations/${destId}`,{
-                method:'GET',
-                headers:{
-                    'Authorization': 'Bearer ' + localStorage.getItem("token"),
-                }
-            }).then(response=>{
-                if(!response.ok){
-                    throw new Error('Network response was not ok')
-                }
-                return response.json();
-            }).then(data => {
-                setNazivDestinacije(data.naziv);
-                setSelectedOption({ value: destId, label: data.naziv }); // Postavljamo selectedOption
-              })
-              .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-              });
-          })
-          .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-          });
-    
+    useEffect(() => { 
         fetch('http://localhost:8081/api/destinations',{
             method:'GET',
             headers:{
@@ -84,46 +40,36 @@ export default function EditClanak() {
           .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
           });
-
-          fetch(`http://localhost:8081/api/clanakaktivnost/${id}`,{
-            method:'GET'
-        }).then(response=>{
-            if(!response.ok){
-                throw new Error('Network response was not ok')
-            }
-            return response.text();
-        }).then(data => {
-                setAktivnostiClanka(data)
-                console.log(data)
-          });
-      }, [id]);
+      }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        fetch(`http://localhost:8081/api/clanak/${id}`,{
-            method:'PUT',
-            headers:{
-                'Authorization': 'Bearer ' + localStorage.getItem("token"),
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify({
-                naslov: naslovClanka,
-                tekst: tekstClanka,
-                autor: autorClanka,
-                destinacija_id:selectedOption.value,
-                aktivnosti: aktivnostiClanka
-            })
-        }).then(response=>{
-            return response.json();
-        }).then(data => {
-            console.log(data)
-            // setDestinacija(data);
-          })
-          .catch(error => {
+        try {
+            const response = await fetch('http://localhost:8081/api/clanak', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem("token"),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    naslov: naslovClanka,
+                    tekst: tekstClanka,
+                    autor: autorClanka,
+                    destinacija_id:selectedOption.value,
+                    aktivnosti: aktivnostiClanka
+                })
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            
+            setAutorClanka('');
+            setNaslovClanka('');
+            setTekstClanka('');
+        } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
-          });
+        }
     };
-    
 
     const handleChange = selectedOption => {
         setSelectedOption(selectedOption);
@@ -143,7 +89,7 @@ export default function EditClanak() {
                     }}
                 >
                     <Typography component="h1" variant="h5">
-                        Edit clanak
+                        Dodaj clanak
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField

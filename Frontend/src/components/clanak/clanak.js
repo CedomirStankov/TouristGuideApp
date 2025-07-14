@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import CommentForm from './commentform';
+import CommentForm from '../commentform';
 import { Box } from '@mui/material';
 
 export default function Clanak() {
@@ -46,9 +46,9 @@ export default function Clanak() {
             setDestinacijaId(data.destinacija_id);
             setVremeKreiranja(data.vremeKreiranja)
             setBrojPoseta(data.brojPoseta)
-            return data.destinacija_id; // Vratite destinacija_id za dalju upotrebu
+            return data.destinacija_id; 
         })
-            .then(destId => { // Ovde dobavljamo naziv destinacije nakon što je postavljen destinacijaId
+            .then(destId => { 
                 fetch(`http://localhost:8081/api/korisnik/destinacija/${destId}`, {
                     method: 'GET',
                 }).then(response => {

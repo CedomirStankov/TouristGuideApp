@@ -13,7 +13,7 @@ const defaultTheme = createTheme();
 export default function EditDestinaciju() {
     const [nazivDestinacije, setNazivDestinacije] = useState('');
     const [opisDestinacije, setOpisDestinacije] = useState('');
-    const { id } = useParams(); //odavde uzimam id iz urla
+    const { id } = useParams(); 
     
     useEffect(()=>{
         fetch(`http://localhost:8081/api/destinations/${id}`,{

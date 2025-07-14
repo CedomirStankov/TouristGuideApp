@@ -13,7 +13,7 @@ export default function ClanciDestinacije() {
     const npage = Math.ceil(clanci.length/recordsPerPage)
     const { id } = useParams();
 
-  useEffect(() => { //ovim useEffectom stavljam koja funkcija ce se izvrsiti kada se renderuje prikaz, a drugi argument mi samo govori kada zelim da se izvrsi useEffect, ako je prazan niz onda se samo prvi put izvrsava pri prvom renderovanju
+  useEffect(() => { 
     fetch(`http://localhost:8081/api/korisnik/clanakdestinacije/${id}`,{
         method:'GET',
     }).then(response => {

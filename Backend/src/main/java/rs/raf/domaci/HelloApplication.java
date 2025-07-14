@@ -27,10 +27,8 @@ import javax.ws.rs.ApplicationPath;
 public class HelloApplication extends ResourceConfig {
 
     public HelloApplication() {
-        // Ukljucujemo validaciju
         property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
 
-        // Definisemo implementacije u dependency container-u
         AbstractBinder binder = new AbstractBinder() {
             @Override
             protected void configure() {
@@ -55,7 +53,6 @@ public class HelloApplication extends ResourceConfig {
         register(binder);
         register(CorsFilter.class);
 
-        // Ucitavamo resurse
         packages("rs.raf.domaci");
     }
 }

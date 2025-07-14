@@ -6,14 +6,11 @@ export default function CommentForm({ onSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Kreiramo objekat sa podacima iz forme
     const newComment = {
       author: author,
       comment: comment,
     };
-    // Pozivamo funkciju za submit koju smo prosledili kao prop
     onSubmit(newComment);
-    // Resetujemo formu
     setAuthor('');
     setComment('');
   };

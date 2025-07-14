@@ -15,7 +15,7 @@ export default function EditKorisnika() {
     const [imeKorisnika, setImeKorisnika] = useState('');
     const [prezimeKorisnika, setPrezimeKorisnika] = useState('');
     const [tipKorisnika, setTipKorisnika] = useState('');
-    const { id } = useParams(); //odavde uzimam id iz urla
+    const { id } = useParams(); 
     
     useEffect(()=>{
         fetch(`http://localhost:8081/api/users/${id}`,{
