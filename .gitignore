@@ -1,0 +1,52 @@
+
+# === GLOBAL IGNORE ===
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# === IntelliJ IDEA / JetBrains ===
+.idea/
+*.iml
+*.iws
+out/
+
+# === VS Code ===
+.vscode/
+
+# === Java / Maven / Gradle (Backend) ===
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven
+Backend/target/
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# Gradle
+.gradle/
+Backend/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# === React / Node.js (Frontend) ===
+Frontend/node_modules/
+Frontend/build/
+Frontend/dist/
+Frontend/.env*
+Frontend/npm-debug.log*
+Frontend/yarn-debug.log*
+Frontend/yarn-error.log*
+
+# === Logs ===
+logs/
+*.log
+
+# === OS/System files ===
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
